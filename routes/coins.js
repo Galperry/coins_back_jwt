@@ -3,18 +3,21 @@ var express = require('express');
 var router = express.Router();
 var coinController = require("../controllers/coinController")
 
+var jwtMiddleware = require('../middlewares/jwt')
+
 /* GET users listing. */
 
-router.get('/', coinController.fetchAll)
+router.get('/', jwtMiddleware.authenticateToken, coinController.fetchAll)
 
-router.post('/:id',coinController.addCoin)
+router.post('/:id', jwtMiddleware.authenticateToken,  coinController.addCoin)
 
-router.get('/:id',coinController.fetchCoin)
+router.get('/:id', jwtMiddleware.authenticateToken,  coinController.fetchCoin)
 
-router.put('/:id', coinController.updateCoin)
+router.put('/:id', jwtMiddleware.authenticateToken,  coinController.updateCoin)
 
-router.delete('/:id', coinController.deleteCoin)
+router.delete('/:id', jwtMiddleware.authenticateToken, coinController.deleteCoin)
 
-router.post('/history/:id', coinController.fetchHistory)
+router.post('/history/:id', jwtMiddleware.authenticateToken,  coinController.fetchHistory)
+
 
 module.exports = router;
